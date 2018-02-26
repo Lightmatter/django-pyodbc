@@ -108,7 +108,7 @@ class DatabaseFeatures(BaseDatabaseFeatures):
     allow_sliced_subqueries = False
     supports_paramstyle_pyformat = False
 
-    #has_bulk_insert = False
+    has_bulk_insert = False
     # DateTimeField doesn't support timezones, only DateTimeOffsetField
     supports_timezones = False
     supports_sequence_reset = False
