@@ -53,6 +53,7 @@ from django import VERSION as DjangoVersion
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
 from django.db import utils
+from django.db.backends.base.schema import BaseDatabaseSchemaEditor
 from django.db.backends.signals import connection_created
 
 from django_pyodbc.client import DatabaseClient
@@ -130,6 +131,8 @@ class DatabaseWrapper(BaseDatabaseWrapper):
     datefirst = 7
     Database = Database
     limit_table_list = False
+    SchemaEditorClass = BaseDatabaseSchemaEditor
+
 
     # Collations:       http://msdn2.microsoft.com/en-us/library/ms184391.aspx
     #                   http://msdn2.microsoft.com/en-us/library/ms179886.aspx
