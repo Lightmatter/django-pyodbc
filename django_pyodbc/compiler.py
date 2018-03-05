@@ -41,11 +41,12 @@
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import re
-from django.db.models.sql import compiler, where
-import django
 import types
-from datetime import datetime, date
+from datetime import date, datetime
+
+import django
 from django import VERSION as DjangoVersion
+from django.db.models.sql import compiler, where
 
 from django_pyodbc.compat import zip_longest
 
@@ -180,7 +181,7 @@ class SQLCompiler(compiler.SQLCompiler):
         try:
             # for django 1.10 and up (works starting in 1.8 so I am told)
             select = self.query.annotation_select
-        except AttributeError: 
+        except AttributeError:
             # older
             select = self.query.aggregate_select
 
@@ -204,9 +205,9 @@ class SQLCompiler(compiler.SQLCompiler):
                 select[alias].sql_function = 'VARP'
 
     def as_sql(self, with_limits=True, with_col_aliases=False, qn=None):
-        
+
         self.pre_sql_setup()
-        
+
         # Django #12192 - Don't execute any DB query when QS slicing results in limit 0
         if with_limits and self.query.low_mark == self.query.high_mark:
             return '', ()
@@ -324,7 +325,7 @@ class SQLCompiler(compiler.SQLCompiler):
                     right_sql_quote=self.connection.ops.right_sql_quote,
                 )
         else:
-            sql = "SELECT {row_num_col}, {outer} FROM ( SELECT ROW_NUMBER() OVER ( ORDER BY {order}) as {row_num_col}, {inner}) as QQQ where {where}".format(
+            sql = "SELECT {outer}, {row_num_col} FROM ( SELECT ROW_NUMBER() OVER ( ORDER BY {order}) as {row_num_col}, {inner}) as QQQ where {where}".format(
                 outer=outer_fields,
                 order=order,
                 inner=inner_select,
