@@ -554,10 +554,10 @@ class CursorWrapper(object):
         return iter(self.cursor)
 
     def __enter__(self):
-        return self.cursor.__enter__()
+        return self
 
     def __exit__(self, *args):
-        return self.cursor.__exit__(*args)
+        return False
 
     # # MS SQL Server doesn't support explicit savepoint commits; savepoints are
     # # implicitly committed with the transaction.
